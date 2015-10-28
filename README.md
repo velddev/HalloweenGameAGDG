@@ -1,2 +1,0 @@
-# HalloweenGameAGDG
-No fun allowed
