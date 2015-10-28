@@ -8,9 +8,9 @@
 #un-ignore the metadata folder and those specific files
 #use at your own risk.
 
-Temp/*
-Library/*
-bin/*
+Halloween Game/Temp/*
+Halloween Game/Library/*
+Halloween Game/bin/*
 
 !Library/*.asset
 !Library/AssetImportState
@@ -48,13 +48,4 @@ ExportedObj/
 *.unityproj
 *.booproj
  
-# ============ #
-# OS generated #
-# ============ #
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+
