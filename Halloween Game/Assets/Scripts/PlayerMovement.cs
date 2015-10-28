@@ -3,8 +3,8 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
     private Vector2 _input, _movement;
-    float speed = 5f;
-    public float lerpSpeed = 0.2f;
+    float speed = 10f;
+    public float lerpSpeed = 1f;
 	// Use this for initialization
 	void Start () {
 	}
