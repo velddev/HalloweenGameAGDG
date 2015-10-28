@@ -5,19 +5,21 @@ public class EnemyBaseAI : MonoBehaviour {
 
     public float MovementSpeed = 5;
     public float Health = 100;
+    public float RotationSpeed = 0.33f;
 
-    GameObject[] Targets;
-    GameObject CurrentTarget;
+    protected GameObject[] Targets;
+    protected GameObject CurrentTarget;
 
 	void Start () {
+        Targets = GameObject.FindGameObjectsWithTag("Player");
         CurrentTarget = GetClosestTarget();
 	}
 	
     void Update()
     {
         Quaternion look = Quaternion.LookRotation(Vector3.forward, CurrentTarget.transform.position - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.1f);
-        if (Vector3.Distance(transform.position, CurrentTarget.transform.position) < 1.25f)
+        transform.rotation = Quaternion.Lerp(transform.rotation, look, RotationSpeed);
+        if (Vector3.Distance(transform.position, CurrentTarget.transform.position) > 1.25f)
         {
             OnMove();
         }
