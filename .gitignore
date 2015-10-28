@@ -11,6 +11,7 @@
 Halloween Game/Temp/*
 Halloween Game/Library/*
 Halloween Game/bin/*
+Halloween Game/Library/metadata/*
 
 !Library/*.asset
 !Library/AssetImportState
