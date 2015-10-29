@@ -13,21 +13,24 @@ public class PlayerMovement : MonoBehaviour
     public Slider healthSlider;
     public Slider staminaSlider;
 
+    Animator a;
+
     // Use this for initialization
     void Start()
     {
+        a = GetComponent<Animator>();        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!sprinting) 
+        if (!sprinting)
         {
             staminaSlider.value += 0.5f * Time.deltaTime;
         }
         else
         {
-            if(staminaSlider.value <= 0)
+            if (staminaSlider.value <= 0)
             {
                 sprinting = false;
             }
@@ -40,19 +43,27 @@ public class PlayerMovement : MonoBehaviour
         Quaternion look = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.1f);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            healthSlider.value -= 0.1f;
-        }
+        /*       if (Input.GetKeyDown(KeyCode.Space))
+               {
+                   healthSlider.value -= 0.1f;
+               }*/
         if (Input.GetKey(KeyCode.LeftShift))
         {
             sprinting = true;
-            if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
                 staminaSlider.value -= 1 * Time.deltaTime;
             }
         }
-        else{ sprinting = false;}
+        else { sprinting = false; }
+        if (Input.GetMouseButtonDown(0))
+        {
+            a.SetTrigger("PunchLeft");
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            a.SetTrigger("PunchRight");
+        }
     }
 
     float getSpeed()
