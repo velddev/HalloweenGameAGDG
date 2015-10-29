@@ -13,6 +13,16 @@ Halloween Game/Library/*
 Halloween Game/bin/*
 Halloween Game/Library/metadata/*
 
+Temp/*
+Library/*
+bin/*
+Library/metadata/*
+
+/Temp/*
+/Library/*
+/bin/*
+/Library/metadata/*
+
 !Library/*.asset
 !Library/AssetImportState
 !Library/AssetVersioning.db

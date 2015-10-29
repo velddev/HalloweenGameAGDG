@@ -40,10 +40,10 @@ public class PlayerMovement : MonoBehaviour
         Quaternion look = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.1f);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            healthSlider.value -= 0.1f;
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    healthSlider.value -= 0.1f;
+        //}
         if (Input.GetKey(KeyCode.LeftShift))
         {
             sprinting = true;
