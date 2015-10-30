@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class SpawnManager : MonoBehaviour {
-   //public GameObject item;
-    
-   public GameObject[] _spawners;
+public class SpawnManager : MonoBehaviour {  
+   
    public GameObject[] Enemies;
 
+   private GameObject[] _spawners;
    private Vector3 _spawnPos;
    private bool canSpawn;
    private int _spawnDelay, _timeDelay, _lastIncreasedTime;
