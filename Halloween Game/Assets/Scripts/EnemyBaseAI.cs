@@ -57,14 +57,14 @@ public class EnemyBaseAI : MonoBehaviour {
         return Targets[id];
     }
 
-    public virtual void OnTriggerEnter(Collider col)
+    public virtual void OnCollisionEnter(Collision col)
     {
-        if(col.tag == "Bullet")
+        if (col.collider.tag == "Bullet")
         {
             Debug.Log("hit");
-            Health -= col.GetComponent<WeaponBase>().Damage;
-            transform.Translate(Vector2.down * col.GetComponent<WeaponBase>().Knockback);
-            Destroy(col);
+            Health -= col.collider.GetComponent<WeaponBase>().Damage;
+            GetComponent<Rigidbody>().AddForceAtPosition(Vector3.one * col.collider.GetComponent<WeaponBase>().Knockback, col.transform.position);
+            Destroy(col.collider);
         }
     }
 }

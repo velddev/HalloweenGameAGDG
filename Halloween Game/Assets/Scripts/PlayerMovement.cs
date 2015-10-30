@@ -84,17 +84,12 @@ public class PlayerMovement : MonoBehaviour
         return speed;
     }
 
-    void OnTriggerEnter(Collider col)
+    void OnCollisionEnter(Collision col)
     {
-        if(col.tag == "Damage")
+        if (col.collider.tag == "Damage")
         {
-            healthSlider.value -= col.GetComponent<EnemyBaseAI>().Damage;
+            healthSlider.value -= col.collider.GetComponent<EnemyBaseAI>().Damage;
         }
-    }
-
-    void OnParticleCollision(GameObject other)
-    {
-        healthSlider.value -= 0.01f;
     }
 }
 

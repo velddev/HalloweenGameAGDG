@@ -45,10 +45,11 @@ public class PumpkinAI : EnemyBaseAI
         float output = max - Vector3.Distance(CurrentTarget.transform.position, transform.position);
         if (output < speed) return speed;
         else if (output > max) return max;
-<<<<<<< HEAD
-=======
-   //     Debug.Log(output);
->>>>>>> 16010561460f96a148573d815ef5b079b8023452
         return output;
+    }
+
+    public override void OnCollisionEnter(Collision col)
+    {
+        base.OnCollisionEnter(col);
     }
 }
