@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public Slider healthSlider;
     public Slider staminaSlider;
 
+    public SpriteRenderer currentWeaponSprite;
     public WeaponBase currentWeapon;
 
     public DataContainer data;
@@ -109,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
     void ChangeWeapon(WeaponBase gun)
     {
         currentWeapon = gun;
+        currentWeaponSprite.sprite = gun.PlayerSprite;
         a.runtimeAnimatorController = gun.PlayerAnimator;
     }
 }
