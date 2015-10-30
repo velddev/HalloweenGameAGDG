@@ -45,7 +45,6 @@ public class PumpkinAI : EnemyBaseAI
         float output = max - Vector3.Distance(CurrentTarget.transform.position, transform.position);
         if (output < speed) return speed;
         else if (output > max) return max;
-        Debug.Log(output);
         return output;
     }
 }
