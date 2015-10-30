@@ -3,17 +3,13 @@ using System.Collections;
 
 public class AudioManager : MonoBehaviour {
 
-    public bool canPlayWalkSFX, canPlaySprintSFX;
     [SerializeField]
     private AudioClip[] SFX;
-    public AudioClip test;
-
-    public AudioSource audioSource;
+    private AudioSource audioSource;
 
     void Awake()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
-        audioSource.clip = test;
     }
 
     public void WalkingSFX(){  
