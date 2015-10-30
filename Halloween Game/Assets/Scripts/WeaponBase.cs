@@ -18,7 +18,6 @@ public class WeaponBase : MonoBehaviour {
     void Update()
     {
         Lifetime -= 1 * Time.deltaTime;
-        Cooldown -= 1 * Time.deltaTime;
         OnMove();
         if(Lifetime <= 0)
         {

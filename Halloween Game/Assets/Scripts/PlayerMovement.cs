@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentWeapon.Cooldown -= 1 * Time.deltaTime;
         if (!sprinting)
         {
             staminaSlider.value += 0.5f * Time.deltaTime;

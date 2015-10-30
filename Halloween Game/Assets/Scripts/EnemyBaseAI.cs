@@ -13,7 +13,7 @@ public class EnemyBaseAI : MonoBehaviour {
 
     protected Animator a;
 
-	void Start () {
+	public virtual void Start () {
         a = GetComponent<Animator>();
         Targets = GameObject.FindGameObjectsWithTag("Player");
         CurrentTarget = GetClosestTarget();

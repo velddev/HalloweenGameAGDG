@@ -3,8 +3,14 @@ using System.Collections;
 
 public class SkeletonAI : EnemyBaseAI {
 
-    float AttackCooldown;
+    public float AttackCooldown;
     float mAttackCooldown;
+
+    public override void Start()
+    {
+        base.Start();
+        mAttackCooldown = AttackCooldown;
+    }
 
     protected override void Update()
     {
@@ -25,7 +31,7 @@ public class SkeletonAI : EnemyBaseAI {
 
     public override void OnDie()
     {
-        base.OnDie();
+        Destroy(gameObject);
     }
 
     public override void OnMove()
