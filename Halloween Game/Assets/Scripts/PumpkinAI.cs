@@ -14,7 +14,7 @@ public class PumpkinAI : EnemyBaseAI
         if(Exploding)
         {
             FuseTime -= 1 * Time.deltaTime;
-            if (FuseTime < 0) { OnDie();  }
+            if (FuseTime < 0) { OnDie(); }
         }
     }
 
