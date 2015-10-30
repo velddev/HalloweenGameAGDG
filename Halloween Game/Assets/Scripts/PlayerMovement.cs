@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     private Vector2 _input, _movement;
+    private AudioManager manager;
     float speed = 10f;
     float speedmodifier = 1.5f;
     bool sprinting = false;
@@ -14,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     public Slider staminaSlider;
 
     public WeaponBase currentWeapon;
-    public SpriteRenderer currentWeaponSprite;
 
     public Animator a;
 
@@ -22,28 +22,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         a = GetComponent<Animator>();
-        ChangeWeapon(currentWeapon);
+        manager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.x > 37)
-        {
-            transform.position = new Vector3(37, transform.position.y);
-        }
-        if (transform.position.x < -35)
-        {
-            transform.position = new Vector3(-35, transform.position.y);
-        }
-        if (transform.position.y > 35)
-        {
-            transform.position = new Vector3(transform.position.x, 35);
-        }
-        if (transform.position.y < -36)
-        {
-            transform.position = new Vector3(transform.position.x, -36);
-        }
         currentWeapon.Cooldown -= 1 * Time.deltaTime;
         if (!sprinting)
         {
@@ -55,8 +40,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 sprinting = false;
             }
-        }
-        transform.position += new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * getSpeed() * Time.deltaTime;
+        }    
+        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * getSpeed() * Time.deltaTime;
+        transform.position += input;
+
+        if (input != Vector3.zero && !sprinting) { manager.WalkingSFX(); }
+
+   
+
         //_movement = _input.normalized * speed * Time.deltaTime;
         //transform.Translate(_movement);
 
@@ -71,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             sprinting = true;
+                manager.SprintingSFX();
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
                 staminaSlider.value -= 1 * Time.deltaTime;
@@ -109,18 +101,6 @@ public class PlayerMovement : MonoBehaviour
         {
             healthSlider.value -= col.collider.GetComponent<EnemyBaseAI>().Damage;
         }
-    }
-
-    void OnParticleCollision(GameObject other)
-    {
-        healthSlider.value -= 0.025f;
-    }
-
-    void ChangeWeapon(WeaponBase Weapon)
-    {
-        currentWeapon = Weapon;
-        currentWeaponSprite.sprite = Weapon.GetComponent<WeaponBase>().PlayerSprite;
-        a.runtimeAnimatorController = Weapon.GetComponent<WeaponBase>().PlayerAnimator;
     }
 }
 
