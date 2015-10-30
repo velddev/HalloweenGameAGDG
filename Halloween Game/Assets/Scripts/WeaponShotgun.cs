@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WeaponKnife : WeaponBase
-{
+public class WeaponShotgun : WeaponBase {
+
     public override void OnMove()
     {
         transform.Translate(Vector2.up * Speed * Time.deltaTime);
@@ -22,5 +22,4 @@ public class WeaponKnife : WeaponBase
     {
         a.SetTrigger("PunchLeft");
     }
-
 }

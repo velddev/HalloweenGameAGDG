@@ -64,7 +64,7 @@ public class EnemyBaseAI : MonoBehaviour {
             Debug.Log("hit");
             Health -= col.collider.GetComponent<WeaponBase>().Damage;
             GetComponent<Rigidbody>().AddForceAtPosition(Vector3.one * col.collider.GetComponent<WeaponBase>().Knockback, col.transform.position);
-            Destroy(col.collider);
+            Destroy(col.collider.gameObject);
         }
     }
 }

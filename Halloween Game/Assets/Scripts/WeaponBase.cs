@@ -3,6 +3,9 @@ using System.Collections;
 
 public class WeaponBase : MonoBehaviour {
 
+    public Sprite PlayerSprite;
+    public RuntimeAnimatorController PlayerAnimator;
+
     public float Lifetime;
     public float Speed;
     public float Damage;
