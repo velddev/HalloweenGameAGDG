@@ -56,4 +56,15 @@ public class EnemyBaseAI : MonoBehaviour {
         }
         return Targets[id];
     }
+
+    public virtual void OnTriggerEnter(Collider col)
+    {
+        if(col.tag == "Bullet")
+        {
+            Debug.Log("hit");
+            Health -= col.GetComponent<WeaponBase>().Damage;
+            transform.Translate(Vector2.down * col.GetComponent<WeaponBase>().Knockback);
+            Destroy(col);
+        }
+    }
 }
