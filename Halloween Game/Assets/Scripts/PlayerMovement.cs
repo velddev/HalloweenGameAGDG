@@ -58,14 +58,20 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         else { sprinting = false; }
-        if (Input.GetMouseButtonDown(0))
+        if (currentWeapon.Cooldown <= 0)
         {
-            currentWeapon.PlayLeftClickAnimation(a);
-
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            currentWeapon.PlayRightClickAnimation(a);
+            if (Input.GetMouseButtonDown(0))
+            {
+                currentWeapon.PlayLeftClickAnimation(a);
+                Instantiate(currentWeapon, transform.position, transform.rotation);
+                currentWeapon.ResetCooldown();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                currentWeapon.PlayRightClickAnimation(a);
+                Instantiate(currentWeapon, transform.position, transform.rotation);
+                currentWeapon.ResetCooldown();
+            }
         }
     }
 
@@ -84,6 +90,11 @@ public class PlayerMovement : MonoBehaviour
         {
             healthSlider.value -= col.GetComponent<EnemyBaseAI>().Damage;
         }
+    }
+
+    void OnParticleCollision(GameObject other)
+    {
+        healthSlider.value -= 0.01f;
     }
 }
 

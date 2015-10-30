@@ -7,10 +7,18 @@ public class WeaponBase : MonoBehaviour {
     public float Speed;
     public float Damage;
     public float Knockback;
+    public float Cooldown;
+    float maxCooldown;
+
+    void Start()
+    {
+        maxCooldown = Cooldown;
+    }
 
     void Update()
     {
         Lifetime -= 1 * Time.deltaTime;
+        Cooldown -= 1 * Time.deltaTime;
         OnMove();
         if(Lifetime <= 0)
         {
@@ -45,5 +53,10 @@ public class WeaponBase : MonoBehaviour {
             GetComponent<EnemyBaseAI>().Health -= Damage;
         }
         OnDie();
+    }
+
+    public void ResetCooldown()
+    {
+        Cooldown = maxCooldown;
     }
 }
