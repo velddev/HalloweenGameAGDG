@@ -13,7 +13,9 @@ public class PlayerMovement : MonoBehaviour
     public Slider healthSlider;
     public Slider staminaSlider;
 
-    Animator a;
+    public WeaponBase currentWeapon;
+
+    public Animator a;
 
     // Use this for initialization
     void Start()
@@ -58,12 +60,12 @@ public class PlayerMovement : MonoBehaviour
         else { sprinting = false; }
         if (Input.GetMouseButtonDown(0))
         {
-            a.SetTrigger("PunchLeft");
+            currentWeapon.PlayLeftClickAnimation(a);
 
         }
         if (Input.GetMouseButtonDown(1))
         {
-            a.SetTrigger("PunchRight");
+            currentWeapon.PlayRightClickAnimation(a);
         }
     }
 

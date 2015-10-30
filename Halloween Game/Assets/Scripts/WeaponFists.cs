@@ -12,4 +12,14 @@ public class WeaponFists : WeaponBase {
     {
         base.OnDie();
     }
+
+    public override void PlayLeftClickAnimation(Animator a)
+    {
+        a.SetTrigger("PunchLeft");
+    }
+
+    public override void PlayRightClickAnimation(Animator a)
+    {
+        a.SetTrigger("PunchRight");
+    }
 }

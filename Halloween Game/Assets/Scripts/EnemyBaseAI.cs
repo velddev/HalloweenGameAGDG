@@ -11,12 +11,15 @@ public class EnemyBaseAI : MonoBehaviour {
     protected GameObject[] Targets;
     protected GameObject CurrentTarget;
 
+    protected Animator a;
+
 	void Start () {
+        a = GetComponent<Animator>();
         Targets = GameObject.FindGameObjectsWithTag("Player");
         CurrentTarget = GetClosestTarget();
 	}
 	
-    void Update()
+    protected virtual void Update()
     {
         Quaternion look = Quaternion.LookRotation(Vector3.forward, CurrentTarget.transform.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, look, RotationSpeed);

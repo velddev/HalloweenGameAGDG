@@ -6,6 +6,7 @@ public class WeaponBase : MonoBehaviour {
     public float Lifetime;
     public float Speed;
     public float Damage;
+    public float Knockback;
 
     void Update()
     {
@@ -25,6 +26,16 @@ public class WeaponBase : MonoBehaviour {
     public virtual void OnDie()
     {
         Destroy(gameObject);
+    }
+
+    public virtual void PlayLeftClickAnimation(Animator a)
+    {
+
+    }
+
+    public virtual void PlayRightClickAnimation(Animator a)
+    {
+
     }
 
     public virtual void OnTriggerEnter(Collider col)

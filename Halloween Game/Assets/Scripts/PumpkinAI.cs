@@ -4,16 +4,32 @@ using System.Collections;
 public class PumpkinAI : EnemyBaseAI
 {
     bool Exploding = false;
+    float FuseTime = 2;
+
+    public ParticleSystem Explosion;
+
+    protected override void Update()
+    {
+        base.Update();
+        if(Exploding)
+        {
+            FuseTime -= 1 * Time.deltaTime;
+            if (FuseTime < 0) { OnDie();  }
+        }
+    }
 
     public override void OnAttack()
     {
         Exploding = true;
-        // TODO: add flicker animation
+        a.SetBool("Explode", true);
     }
 
     public override void OnDie()
     {
-      
+        Explosion.gameObject.SetActive(true);
+        Explosion.Play();
+        Explosion.transform.parent = null;
+        Destroy(gameObject);
     }
 
     public override void OnMove()
