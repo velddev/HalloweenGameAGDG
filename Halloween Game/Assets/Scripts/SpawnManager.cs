@@ -4,23 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class SpawnManager : MonoBehaviour {  
-   
-   public GameObject[] Enemies;
+   //public float spawnChance;
 
    private GameObject[] _spawners;
    private Vector3 _spawnPos;
-   private bool canSpawn;
+   
+    [SerializeField]
+    private GameObject _healthPacks;
+
+    [SerializeField]
+    private GameObject[] Enemies;
+
+   
+   private bool _canSpawn, _canSpawnHealth;
    private int _spawnDelay, _timeDelay, _lastIncreasedTime;
 
    void Awake()
    {
        _spawners = GameObject.FindGameObjectsWithTag("Respawn").ToArray();
-       _spawnDelay = 5; canSpawn = true; _timeDelay = 30;
+       _spawnDelay = 5; _canSpawn = true; _timeDelay = 30;
+       StartCoroutine(SpawnHealth());
+       GameObject.Destroy(GameObject.FindGameObjectWithTag("Health"));
    }
 
     void Update()
     {
-        if (canSpawn) { StartCoroutine(SpawnMob(_spawnDelay)); }
+        if (_canSpawn) { StartCoroutine(SpawnMob(_spawnDelay)); }
+        if (_canSpawnHealth) { StartCoroutine(SpawnHealth()); }
+
         if (_spawnDelay <= 2) { _spawnDelay = 2; }
 
         if (Time.time > _timeDelay + _lastIncreasedTime)
@@ -32,11 +43,20 @@ public class SpawnManager : MonoBehaviour {
 
     IEnumerator SpawnMob(int timeBetweenEnemies)
     {
-        canSpawn = false;
+        _canSpawn = false;
         _spawnPos = _spawners[Random.Range(0, _spawners.Length)].transform.position;
         Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawnPos, transform.rotation);
         Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawnPos, transform.rotation);
         yield return new WaitForSeconds(timeBetweenEnemies);
-        canSpawn = true;
+        _canSpawn = true;
+    }
+
+    IEnumerator SpawnHealth()
+    {
+        _canSpawnHealth = false;
+        _spawnPos = _spawners[Random.Range(0, _spawners.Length)].transform.position;
+        Instantiate(_healthPacks, _spawnPos, transform.rotation);
+        yield return new WaitForSeconds(60);
+        _canSpawnHealth = true;
     }
 }
