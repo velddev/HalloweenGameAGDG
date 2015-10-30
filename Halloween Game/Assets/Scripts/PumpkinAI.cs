@@ -3,9 +3,12 @@ using System.Collections;
 
 public class PumpkinAI : EnemyBaseAI
 {
+    bool Exploding = false;
+
     public override void OnAttack()
     {
-        
+        Exploding = true;
+        // TODO: add flicker animation
     }
 
     public override void OnDie()
@@ -15,7 +18,10 @@ public class PumpkinAI : EnemyBaseAI
 
     public override void OnMove()
     {
-        transform.Translate(Vector2.up * CalculateMovementSpeed(MovementSpeed, 20) * Time.deltaTime);
+        if (!Exploding)
+        {
+            transform.Translate(Vector2.up * CalculateMovementSpeed(MovementSpeed, 20) * Time.deltaTime);
+        }
     }
 
     float CalculateMovementSpeed(float speed, float max)

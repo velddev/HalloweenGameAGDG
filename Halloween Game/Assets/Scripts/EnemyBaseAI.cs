@@ -6,6 +6,7 @@ public class EnemyBaseAI : MonoBehaviour {
     public float MovementSpeed = 5;
     public float Health = 100;
     public float RotationSpeed = 0.33f;
+    public float Damage = 0.1f;
 
     protected GameObject[] Targets;
     protected GameObject CurrentTarget;

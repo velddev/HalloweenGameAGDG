@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             a.SetTrigger("PunchLeft");
+
         }
         if (Input.GetMouseButtonDown(1))
         {
@@ -73,6 +74,14 @@ public class PlayerMovement : MonoBehaviour
             return speed * speedmodifier;
         }
         return speed;
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if(col.tag == "Damage")
+        {
+            healthSlider.value -= col.GetComponent<EnemyBaseAI>().Damage;
+        }
     }
 }
 
