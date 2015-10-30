@@ -14,16 +14,20 @@ public class PlayerMovement : MonoBehaviour
     public Slider healthSlider;
     public Slider staminaSlider;
 
+    public SpriteRenderer currentWeaponSprite;
     public WeaponBase currentWeapon;
+
+    public DataContainer data;
 
     public Animator a;
 
     // Use this for initialization
     void Start()
     {
+        data = GameObject.FindGameObjectWithTag("GameContainer").GetComponent<DataContainer>();
         a = GetComponent<Animator>();
         manager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        
+        ChangeWeapon(data.PreferredWeapon);
     }
 
     // Update is called once per frame
@@ -101,6 +105,13 @@ public class PlayerMovement : MonoBehaviour
         {
             healthSlider.value -= col.collider.GetComponent<EnemyBaseAI>().Damage;
         }
+    }
+
+    void ChangeWeapon(WeaponBase gun)
+    {
+        currentWeapon = gun;
+        currentWeaponSprite.sprite = gun.PlayerSprite;
+        a.runtimeAnimatorController = gun.PlayerAnimator;
     }
 }
 
