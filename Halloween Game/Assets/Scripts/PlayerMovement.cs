@@ -17,23 +17,27 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer currentWeaponSprite;
     public WeaponBase currentWeapon;
 
-    public DataContainer data;
-
     public Animator a;
+    public GameObject DeathScreen;
+    public bool CanMove;
 
     // Use this for initialization
     void Start()
     {
-        data = GameObject.FindGameObjectWithTag("GameContainer").GetComponent<DataContainer>();
         a = GetComponent<Animator>();
         manager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        ChangeWeapon(data.PreferredWeapon);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.x < -37)
+        if (healthSlider.value <= 0)
+        {
+            DeathScreen.SetActive(true);
+            PlayerPrefs.SetFloat("TopScore", GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().SecondsSurvived);
+            Time.timeScale = 0;
+        }
+        if (transform.position.x < -37)
         {
             transform.position = new Vector3(-37, transform.position.y);
         }
@@ -60,13 +64,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 sprinting = false;
             }
-        }    
+        }
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * getSpeed() * Time.deltaTime;
         transform.position += input;
 
         if (input != Vector3.zero && !sprinting) { manager.WalkingSFX(); }
 
-   
 
         //_movement = _input.normalized * speed * Time.deltaTime;
         //transform.Translate(_movement);
@@ -75,20 +78,19 @@ public class PlayerMovement : MonoBehaviour
         Quaternion look = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.1f);
 
-        /*       if (Input.GetKeyDown(KeyCode.Space))
-               {
-                   healthSlider.value -= 0.1f;
-               }*/
         if (Input.GetKey(KeyCode.LeftShift))
         {
             sprinting = true;
-                manager.SprintingSFX();
+            manager.SprintingSFX();
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
                 staminaSlider.value -= 1 * Time.deltaTime;
             }
         }
-        else { sprinting = false; }
+        else
+        {
+            sprinting = false;
+        }
         if (currentWeapon.Cooldown <= 0)
         {
             if (Input.GetMouseButtonDown(0))
@@ -105,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
 
     float getSpeed()
     {
@@ -127,7 +130,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void ChangeWeapon(WeaponBase gun)
+    void OnParticleCollision(GameObject other) {
+        healthSlider.value -= 0.025f;
+
+        }
+
+    public void ChangeWeapon(WeaponBase gun)
     {
         currentWeapon = gun;
         currentWeaponSprite.sprite = gun.PlayerSprite;

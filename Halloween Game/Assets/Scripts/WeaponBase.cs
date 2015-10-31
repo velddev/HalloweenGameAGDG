@@ -3,6 +3,7 @@ using System.Collections;
 
 public class WeaponBase : MonoBehaviour {
 
+    public AudioClip WeaponSFX;
     public Sprite PlayerSprite;
     public RuntimeAnimatorController PlayerAnimator;
 

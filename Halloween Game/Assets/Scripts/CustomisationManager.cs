@@ -3,24 +3,48 @@ using System.Collections;
 
 public class CustomisationManager : MonoBehaviour
 {
-    DataContainer data;
 
     [SerializeField]
-    SpriteRenderer Head;
+    GameObject Head;
     [SerializeField]
     SpriteRenderer[] Bodyparts;
-
     [SerializeField]
     Sprite[] Hats;
+    [SerializeField]
+    WeaponBase[] Weapons;
+
+    int PreferredHatID = 0;
+    int PreferredWeaponID = 0;
+    Color PreferredColor;
 
     void Start()
     {
-        data = GameObject.FindGameObjectWithTag("GameContainer").GetComponent<DataContainer>();
-        for(int i = 0; i < Bodyparts.Length; i++)
+        if (PlayerPrefs.HasKey("ColR"))
         {
-            Bodyparts[i].color = data.PreferredBodyColor;
+            PreferredColor = new Color(PlayerPrefs.GetFloat("ColR"), PlayerPrefs.GetFloat("ColG"), PlayerPrefs.GetFloat("ColB"));
         }
-        Head.sprite = Hats[data.PreferredHatID];
+        else
+        {
+            PreferredColor = Color.white;
+        }
+        for (int i = 0; i < Bodyparts.Length; i++)
+        {
+            Bodyparts[i].color = PreferredColor;
+        }
+        if (PlayerPrefs.HasKey("Hat"))
+        {
+            PreferredHatID = PlayerPrefs.GetInt("Hat");
+        }
+        else { PreferredHatID = 0; }
+
+        Head.GetComponent<SpriteRenderer>().sprite = Hats[PreferredHatID];
+
+        if (PlayerPrefs.HasKey("Wep"))
+        {
+            PreferredWeaponID = PlayerPrefs.GetInt("Wep");
+        }
+        else { PreferredWeaponID = 0; }
+        Head.GetComponent<PlayerMovement>().ChangeWeapon(Weapons[PreferredWeaponID]);
         enabled = false;
     }
 }
