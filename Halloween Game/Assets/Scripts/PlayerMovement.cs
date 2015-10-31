@@ -33,6 +33,22 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(transform.position.x < -37)
+        {
+            transform.position = new Vector3(-37, transform.position.y);
+        }
+        if (transform.position.x > 35)
+        {
+            transform.position = new Vector3(35, transform.position.y);
+        }
+        if (transform.position.x < -35)
+        {
+            transform.position = new Vector3(transform.position.x, -35);
+        }
+        if (transform.position.y > 35)
+        {
+            transform.position = new Vector3(transform.position.x, 35);
+        }
         currentWeapon.Cooldown -= 1 * Time.deltaTime;
         if (!sprinting)
         {
@@ -104,6 +120,10 @@ public class PlayerMovement : MonoBehaviour
         if (col.collider.tag == "Damage")
         {
             healthSlider.value -= col.collider.GetComponent<EnemyBaseAI>().Damage;
+        }
+        if(col.collider.tag == "Health")
+        {
+            healthSlider.value += 0.25f;
         }
     }
 
