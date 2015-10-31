@@ -31,12 +31,18 @@ public class SkeletonAI : EnemyBaseAI {
 
     public override void OnDie()
     {
+        base.OnDie();
         Destroy(gameObject);
     }
 
     public override void OnMove()
     {
         transform.Translate(Vector2.up * MovementSpeed * Time.deltaTime);
+    }
+
+    public override void OnHurt()
+    {
+        GetComponent<AudioSource>().PlayOneShot(HurtSFX);
     }
 
     public override void OnCollisionEnter(Collision col)

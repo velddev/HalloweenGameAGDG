@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour {
         TimeSurvived.text = "Time Survived: " + CalculateTime();
     }
 
-    string CalculateTime()
+    public string CalculateTime()
     {
         string output = "";
         float seconds = Mathf.Floor(SecondsSurvived);

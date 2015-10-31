@@ -23,10 +23,6 @@ public class Customiser : MonoBehaviour {
         {
             currentHatID = PlayerPrefs.GetInt("Hat");
         }
-        if (PlayerPrefs.HasKey("Wep"))
-        {
-            currentWepID = PlayerPrefs.GetInt("Wep");
-        }
         if (PlayerPrefs.HasKey("ColR"))
         {
             currentColor = new Color(PlayerPrefs.GetFloat("ColR"), PlayerPrefs.GetFloat("ColG"), PlayerPrefs.GetFloat("ColB"));
@@ -62,7 +58,6 @@ public class Customiser : MonoBehaviour {
     public void Save()
     {
         PlayerPrefs.SetInt("Hat", currentHatID);
-        PlayerPrefs.SetInt("Wep", currentWepID);
         PlayerPrefs.SetFloat("ColR", slider_r.value );
         PlayerPrefs.SetFloat("ColG", slider_g.value);
         PlayerPrefs.SetFloat("ColB", slider_b.value);

@@ -17,31 +17,27 @@ public class SpawnManager : MonoBehaviour {
 
    
    private bool _canSpawn, _canSpawnHealth;
-   private int _spawnDelay, _timeDelay, _lastIncreasedTime;
+   private float _spawnDelay, _timeDelay, _lastIncreasedTime;
 
    void Awake()
    {
        _spawners = GameObject.FindGameObjectsWithTag("Respawn").ToArray();
-       _spawnDelay = 5; _canSpawn = true; _timeDelay = 30;
+       _spawnDelay = 3.5f; _canSpawn = true;
        StartCoroutine(SpawnHealth());
        GameObject.Destroy(GameObject.FindGameObjectWithTag("Health"));
    }
 
-    void Update()
-    {
-        if (_canSpawn) { StartCoroutine(SpawnMob(_spawnDelay)); }
-        if (_canSpawnHealth) { StartCoroutine(SpawnHealth()); }
+   void Update()
+   {
+       if (_canSpawn) { StartCoroutine(SpawnMob(_spawnDelay)); }
+       if (_canSpawnHealth) { StartCoroutine(SpawnHealth()); }
 
-        if (_spawnDelay <= 2) { _spawnDelay = 2; }
+       if (_spawnDelay <= 1) { _spawnDelay = 1f; }
+       _lastIncreasedTime = (int)Time.time;
+       _spawnDelay -= 0.001f * Time.deltaTime;
+   }
 
-        if (Time.time > _timeDelay + _lastIncreasedTime)
-        {
-            _lastIncreasedTime = (int)Time.time;
-            _spawnDelay -= 1;
-        }          
-    }
-
-    IEnumerator SpawnMob(int timeBetweenEnemies)
+    IEnumerator SpawnMob(float timeBetweenEnemies)
     {
         _canSpawn = false;
         _spawnPos = _spawners[Random.Range(0, _spawners.Length)].transform.position;

@@ -26,9 +26,11 @@ public class PumpkinAI : EnemyBaseAI
 
     public override void OnDie()
     {
+        base.OnDie();
         Explosion.gameObject.SetActive(true);
         Explosion.Play();
         Explosion.transform.parent = null;
+        Explosion.GetComponent<AudioSource>().PlayOneShot(DieSFX);
         Destroy(gameObject);
     }
 

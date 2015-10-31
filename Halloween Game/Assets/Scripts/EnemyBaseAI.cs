@@ -13,6 +13,9 @@ public class EnemyBaseAI : MonoBehaviour {
 
     protected Animator a;
 
+    public AudioClip HurtSFX;
+    public AudioClip DieSFX;
+
 	public virtual void Start () {
         a = GetComponent<Animator>();
         Targets = GameObject.FindGameObjectsWithTag("Player");
@@ -39,7 +42,9 @@ public class EnemyBaseAI : MonoBehaviour {
 
     public virtual void OnAttack() { }
 
-    public virtual void OnDie() { }
+    public virtual void OnHurt() { }
+
+    public virtual void OnDie() { CurrentTarget.GetComponent<PlayerMovement>().KillsMade++; }
 
     public virtual void OnMove() { }
 
@@ -61,7 +66,7 @@ public class EnemyBaseAI : MonoBehaviour {
     {
         if (col.collider.tag == "Bullet")
         {
-            Debug.Log("hit");
+            OnHurt();
             Health -= col.collider.GetComponent<WeaponBase>().Damage;
             GetComponent<Rigidbody>().AddForceAtPosition(Vector3.one * col.collider.GetComponent<WeaponBase>().Knockback, col.transform.position);
             Destroy(col.collider.gameObject);

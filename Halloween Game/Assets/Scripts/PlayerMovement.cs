@@ -17,8 +17,13 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer currentWeaponSprite;
     public WeaponBase currentWeapon;
 
+    public int currentWeaponID;
+    public WeaponBase[] allweapons;
+
     public Animator a;
     public GameObject DeathScreen;
+    public Text stats;
+    public int KillsMade;
     public bool CanMove;
 
     // Use this for initialization
@@ -34,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         if (healthSlider.value <= 0)
         {
             DeathScreen.SetActive(true);
+            stats.text = "Time survived: " + GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().CalculateTime() + "\nKills: " + KillsMade;
             PlayerPrefs.SetFloat("TopScore", GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().SecondsSurvived);
             Time.timeScale = 0;
         }
@@ -98,13 +104,33 @@ public class PlayerMovement : MonoBehaviour
                 currentWeapon.PlayLeftClickAnimation(a);
                 Instantiate(currentWeapon, transform.position, transform.rotation);
                 currentWeapon.ResetCooldown();
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.WeaponSFX);
             }
             if (Input.GetMouseButtonDown(1))
             {
                 currentWeapon.PlayRightClickAnimation(a);
                 Instantiate(currentWeapon, transform.position, transform.rotation);
                 currentWeapon.ResetCooldown();
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.WeaponSFX);
             }
+        }
+        if(Input.mouseScrollDelta.y > 0)
+        {
+            currentWeaponID++;
+            if(currentWeaponID >= allweapons.Length)
+            {
+                currentWeaponID = 0;
+            }
+            ChangeWeapon(allweapons[currentWeaponID]);
+        }
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            currentWeaponID--;
+            if (currentWeaponID <= 0)
+            {
+                currentWeaponID = allweapons.Length;
+            }
+            ChangeWeapon(allweapons[currentWeaponID]);
         }
     }
 
