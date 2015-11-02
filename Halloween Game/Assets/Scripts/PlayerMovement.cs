@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = new Vector3(35, transform.position.y);
         }
-        if (transform.position.x < -35)
+        if (transform.position.y < -35)
         {
             transform.position = new Vector3(transform.position.x, -35);
         }
@@ -104,14 +104,14 @@ public class PlayerMovement : MonoBehaviour
                 currentWeapon.PlayLeftClickAnimation(a);
                 Instantiate(currentWeapon, transform.position, transform.rotation);
                 currentWeapon.ResetCooldown();
-                GetComponent<AudioSource>().PlayOneShot(currentWeapon.WeaponSFX);
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.WeaponSFX, 0.5f);
             }
             if (Input.GetMouseButtonDown(1))
             {
                 currentWeapon.PlayRightClickAnimation(a);
                 Instantiate(currentWeapon, transform.position, transform.rotation);
                 currentWeapon.ResetCooldown();
-                GetComponent<AudioSource>().PlayOneShot(currentWeapon.WeaponSFX);
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.WeaponSFX, 0.5f);
             }
         }
         if(Input.mouseScrollDelta.y > 0)
@@ -153,6 +153,7 @@ public class PlayerMovement : MonoBehaviour
         if(col.collider.tag == "Health")
         {
             healthSlider.value += 0.25f;
+            Destroy(col.gameObject);
         }
     }
 

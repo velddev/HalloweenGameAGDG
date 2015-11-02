@@ -41,8 +41,8 @@ public class SpawnManager : MonoBehaviour {
     {
         _canSpawn = false;
         _spawnPos = _spawners[Random.Range(0, _spawners.Length)].transform.position;
-        Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawnPos, transform.rotation);
-        Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawnPos, transform.rotation);
+        Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawners[Random.Range(0,_spawners.Length)].transform.position, transform.rotation);
+        Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawners[Random.Range(0,_spawners.Length)].transform.position, transform.rotation);
         yield return new WaitForSeconds(timeBetweenEnemies);
         _canSpawn = true;
     }
