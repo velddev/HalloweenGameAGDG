@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
             PlayerPrefs.SetFloat("TopScore", data.TimeSurvived);
             Time.timeScale = 0;
         }
-        if (transform.position.x < -37)
+        if (transform.position.x < -35)
         {
             transform.position = new Vector3(-37, transform.position.y);
         }
@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
                 sprinting = false;
             }
         }
-        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal "+ playerNumber), Input.GetAxisRaw("Vertical "+ playerNumber)).normalized * getSpeed() * Time.deltaTime;
+        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal "+ playerNumber), Input.GetAxisRaw("Vertical "+ playerNumber)) * getSpeed() * Time.deltaTime;
         transform.position += input;
 
         if (input != Vector3.zero && !sprinting) { manager.WalkingSFX(); }

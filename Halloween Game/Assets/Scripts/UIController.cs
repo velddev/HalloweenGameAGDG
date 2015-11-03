@@ -33,6 +33,8 @@ public class UIController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Joystick1Button0))
         {
             GetComponent<AudioSource>().PlayOneShot(selectSFX, 0.3f);
+            PointerEventData pointer = new PointerEventData(EventSystem.current);
+            ExecuteEvents.Execute(buttons[_currentButton].gameObject, pointer, ExecuteEvents.pointerClickHandler);
         }
         if (Input.GetAxisRaw("JoyStick0_DpadVertical") != 0)
         {
