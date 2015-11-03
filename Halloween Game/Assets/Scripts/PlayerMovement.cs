@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer currentWeaponSprite;
     public WeaponBase currentWeapon;
 
-    public int currentWeaponID;
+    public int currentWeaponID, playerNummer;
     public WeaponBase[] allweapons;
 
     public Animator a;
@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
                 sprinting = false;
             }
         }
-        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * getSpeed() * Time.deltaTime;
+        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal "+ playerNummer), Input.GetAxisRaw("Vertical "+ playerNummer)).normalized * getSpeed() * Time.deltaTime;
         transform.position += input;
 
         if (input != Vector3.zero && !sprinting) { manager.WalkingSFX(); }
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         {
             sprinting = true;
             manager.SprintingSFX();
-            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            if (Input.GetAxisRaw("Horizontal " + playerNummer) != 0 || Input.GetAxisRaw("Vertical "+ playerNummer) != 0)
             {
                 staminaSlider.value -= 1 * Time.deltaTime;
             }
