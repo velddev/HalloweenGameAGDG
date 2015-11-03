@@ -44,7 +44,7 @@ public class Customiser : MonoBehaviour {
     {
         for(int i = 0; i < PlayerBody.Length;i++)
         {
-            PlayerBody[i].GetComponent<SpriteRenderer>().color = new Color(slider_r.value, slider_g.value, slider_b.value);
+            PlayerBody[i].GetComponent<SpriteRenderer>().color = new Color(slider_r.value / 10, slider_g.value / 10, slider_b.value / 10);
         }
         currentColor = PlayerBody[0].GetComponent<SpriteRenderer>().color;
     }
