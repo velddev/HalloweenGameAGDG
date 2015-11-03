@@ -3,46 +3,59 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class SpawnManager : MonoBehaviour {  
-   //public float spawnChance;
+public class SpawnManager : MonoBehaviour
+{
+    private GameObject[] _spawners;
 
-   private GameObject[] _spawners;
-   private Vector3 _spawnPos;
-   
     [SerializeField]
     private GameObject _healthPacks;
 
     [SerializeField]
     private GameObject[] Enemies;
 
-   
-   private bool _canSpawn, _canSpawnHealth;
-   private float _spawnDelay, _timeDelay, _lastIncreasedTime;
+    public int WaveNumber;
+    public int MonstersToSpawn;
+    public int MonstersSpawnPerDelay;
 
-   void Awake()
-   {
-       _spawners = GameObject.FindGameObjectsWithTag("Respawn").ToArray();
-       _spawnDelay = 3.5f; _canSpawn = true;
-       StartCoroutine(SpawnHealth());
-       GameObject.Destroy(GameObject.FindGameObjectWithTag("Health"));
-   }
+    private bool _canSpawn, _canSpawnHealth;
+    private float _spawnDelay, _timeDelay, _lastIncreasedTime;
 
-   void Update()
-   {
-       if (_canSpawn) { StartCoroutine(SpawnMob(_spawnDelay)); }
-       if (_canSpawnHealth) { StartCoroutine(SpawnHealth()); }
+    void Awake()
+    {
+        _spawners = GameObject.FindGameObjectsWithTag("Respawn").ToArray();
+        _spawnDelay = 3.5f; _canSpawn = true;
+        StartCoroutine(SpawnHealth());
+        GameObject.Destroy(GameObject.FindGameObjectWithTag("Health"));
+    }
 
-       if (_spawnDelay <= 1) { _spawnDelay = 1f; }
-       _lastIncreasedTime = (int)Time.time;
-       _spawnDelay -= 0.001f * Time.deltaTime;
-   }
+    void Update()
+    {
+        if (MonstersToSpawn <= 0)
+        {
+            if (_canSpawn) { StartCoroutine(SpawnMob(_spawnDelay)); }
+            if (_canSpawnHealth) { StartCoroutine(SpawnHealth()); }
+
+            if (_spawnDelay <= 1) { _spawnDelay = 1f; }
+            _lastIncreasedTime = (int)Time.time;
+            _spawnDelay -= 0.001f * Time.deltaTime;
+        }
+        else
+        {
+            if (!IsInvoking("NextWave"))
+            {
+                Invoke("NextWave", 1);
+            }
+        }
+    }
 
     IEnumerator SpawnMob(float timeBetweenEnemies)
     {
         _canSpawn = false;
-        _spawnPos = _spawners[Random.Range(0, _spawners.Length)].transform.position;
-        Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawners[Random.Range(0,_spawners.Length)].transform.position, transform.rotation);
-        Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawners[Random.Range(0,_spawners.Length)].transform.position, transform.rotation);
+        for (int i = 0; i < MonstersSpawnPerDelay; i++)
+        {
+            Instantiate(Enemies[Random.Range(0, Enemies.Length)], _spawners[Random.Range(0, _spawners.Length)].transform.position, transform.rotation);
+        }
+        MonstersToSpawn -= MonstersSpawnPerDelay;
         yield return new WaitForSeconds(timeBetweenEnemies);
         _canSpawn = true;
     }
@@ -50,9 +63,15 @@ public class SpawnManager : MonoBehaviour {
     IEnumerator SpawnHealth()
     {
         _canSpawnHealth = false;
-        _spawnPos = _spawners[Random.Range(0, _spawners.Length)].transform.position;
-        Instantiate(_healthPacks, _spawnPos, transform.rotation);
+        Instantiate(_healthPacks, _spawners[Random.Range(0, _spawners.Length)].transform.position, transform.rotation);
         yield return new WaitForSeconds(60);
         _canSpawnHealth = true;
+    }
+
+    void NextWave()
+    {
+        WaveNumber++;
+        MonstersToSpawn = 10 * WaveNumber;
+        MonstersSpawnPerDelay = (int)Mathf.Round(1 * WaveNumber / 10);
     }
 }
