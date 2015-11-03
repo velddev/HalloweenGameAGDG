@@ -14,13 +14,18 @@ public class CameraScript : MonoBehaviour {
     {
         if (target)
         {
-           // Vector3 point = Camera.main.WorldToViewportPoint(target.position);
-            Vector3 delta = target.position - Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1f)); //(new Vector3(0.5, 0.5, point.z));
-            Vector3 destination = transform.position + delta;
-            mouse = Camera.main.ViewportToWorldPoint(Input.mousePosition);
-            mouse = new Vector3(mouse.x - 12500, mouse.y- 5000);
-            transform.position = Vector3.SmoothDamp(transform.position, new Vector3((target.position.x + (mouse.x * 0.001f)), (target.position.y + (mouse.y * 0.001f)), -10), ref velocity, dampTime);
-            Debug.Log(mouse);
+            Vector3 targetPosition = CalculateMiddlePoint(GameController.Players.ToArray());
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, dampTime);
         }
+    }
+
+    Vector3 CalculateMiddlePoint(GameObject[] points)
+    {
+        Vector3 output = Vector3.zero;
+        for(int i = 0; i < points.Length; i++)
+        {
+            output += points[i].transform.position;
+        }
+        return new Vector3(output.x / points.Length, output.y / points.Length, -10);
     }
 }

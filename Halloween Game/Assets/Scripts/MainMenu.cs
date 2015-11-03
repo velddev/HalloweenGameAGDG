@@ -6,8 +6,11 @@ public class MainMenu : MonoBehaviour
 {
     public Text TopScore;
 
+    DataContainer data;
+
     void Start()
     {
+        data = GameObject.FindGameObjectWithTag("GameContainer").GetComponent<DataContainer>();
         float TopScoreTime = PlayerPrefs.GetFloat("TopScore");
         TopScore.text = "Best time: " + CalculateTime(TopScoreTime);
         Time.timeScale = 1;
@@ -15,6 +18,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
+        data.AmountOfPlayers = 1;
         Application.LoadLevel("Game");
     }
 
@@ -30,7 +34,6 @@ public class MainMenu : MonoBehaviour
 
     string CalculateTime(float i)
     {
-        string output = "";
         float seconds = Mathf.Floor(i);
         float minutes = Mathf.Floor(seconds / 60);
         float hours = Mathf.Floor(minutes / 60);

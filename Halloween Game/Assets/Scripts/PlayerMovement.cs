@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,30 +18,29 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer currentWeaponSprite;
     public WeaponBase currentWeapon;
 
-    public int currentWeaponID, playerNummer;
+    public int currentWeaponID, playerNumber;
     public WeaponBase[] allweapons;
 
     public Animator a;
     public GameObject DeathScreen;
     public Text stats;
-    public int KillsMade;
-    public bool CanMove;
 
-    // Use this for initialization
+    public DataContainer data;
+
     void Start()
     {
+        data = GameObject.FindGameObjectWithTag("GameContainer").GetComponent<DataContainer>();
         a = GetComponent<Animator>();
         manager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (healthSlider.value <= 0)
         {
             DeathScreen.SetActive(true);
-            stats.text = "Time survived: " + GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().CalculateTime() + "\nKills: " + KillsMade;
-            PlayerPrefs.SetFloat("TopScore", GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().SecondsSurvived);
+            stats.text = "Time survived: " + GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().CalculateTime() + "\nKills: " + data.KillsMade;
+            PlayerPrefs.SetFloat("TopScore", data.TimeSurvived);
             Time.timeScale = 0;
         }
         if (transform.position.x < -37)
@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
                 sprinting = false;
             }
         }
-        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal "+ playerNummer), Input.GetAxisRaw("Vertical "+ playerNummer)).normalized * getSpeed() * Time.deltaTime;
+        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal "+ playerNumber), Input.GetAxisRaw("Vertical "+ playerNumber)).normalized * getSpeed() * Time.deltaTime;
         transform.position += input;
 
         if (input != Vector3.zero && !sprinting) { manager.WalkingSFX(); }
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         {
             sprinting = true;
             manager.SprintingSFX();
-            if (Input.GetAxisRaw("Horizontal " + playerNummer) != 0 || Input.GetAxisRaw("Vertical "+ playerNummer) != 0)
+            if (Input.GetAxisRaw("Horizontal " + playerNumber) != 0 || Input.GetAxisRaw("Vertical "+ playerNumber) != 0)
             {
                 staminaSlider.value -= 1 * Time.deltaTime;
             }
@@ -134,6 +134,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetUp(Slider slider1, Slider slider2)
+    {
+        healthSlider = slider1;
+        staminaSlider = slider2;
+    }
 
     float getSpeed()
     {

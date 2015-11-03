@@ -16,6 +16,7 @@ public class EnemyBaseAI : MonoBehaviour {
 
     protected Animator animator;
     protected AudioSource audioSource;
+    protected DataContainer data;
 
     public AudioClip HurtSFX;
     public AudioClip DieSFX;
@@ -25,6 +26,7 @@ public class EnemyBaseAI : MonoBehaviour {
 	public virtual void Start () {
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        data = GameObject.FindGameObjectWithTag("GameContainer").GetComponent<DataContainer>();
         Targets = GameObject.FindGameObjectsWithTag("Player");
         CurrentTarget = GetClosestTarget();
 	}
@@ -55,7 +57,7 @@ public class EnemyBaseAI : MonoBehaviour {
 
     public virtual void OnHurt() { }
 
-    public virtual void OnDie() { CurrentTarget.GetComponent<PlayerMovement>().KillsMade++; }
+    public virtual void OnDie() { data.KillsMade++; }
 
     public virtual void OnMove() { }
 
