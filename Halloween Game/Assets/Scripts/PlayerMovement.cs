@@ -82,16 +82,17 @@ public class PlayerMovement : MonoBehaviour
         //transform.Translate(_movement);
 
         Vector3 lookPos = new Vector3(transform.position.x + Input.GetAxis("JoyStick0_SecondHorizontal"), transform.position.y + Input.GetAxis("JoyStick0_SecondVertical"), 0);
-        if(lookPos != Vector3.zero)
+        if (lookPos.magnitude < 0.25f)
         {
-            _prevlookpos = new Vector3(Input.GetAxis("JoyStick0_SecondHorizontal"), Input.GetAxis("JoyStick0_SecondVertical"), 0);
+            lookPos = Vector3.zero;
+          //  Debug.Log("A" +lookPos);
         }
         else
         {
-            lookPos = new Vector3(transform.position.x + _prevlookpos.x, transform.position.y + _prevlookpos.y, 0); 
+            Quaternion look = Quaternion.LookRotation(Vector3.forward, lookPos - transform.position);
+            transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.1f);
+            //Debug.Log("B"+ lookPos);
         }
-        Quaternion look = Quaternion.LookRotation(Vector3.forward, lookPos - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.1f);
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
