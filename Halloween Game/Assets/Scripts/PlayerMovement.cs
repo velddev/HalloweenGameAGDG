@@ -6,6 +6,7 @@ using System;
 public class PlayerMovement : MonoBehaviour
 {
     private Vector2 _input, _movement;
+    private Vector3 _prevlookpos;
     private AudioManager manager;
     float speed = 10f;
     float speedmodifier = 1.5f;
@@ -80,8 +81,16 @@ public class PlayerMovement : MonoBehaviour
         //_movement = _input.normalized * speed * Time.deltaTime;
         //transform.Translate(_movement);
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Quaternion look = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
+        Vector3 lookPos = new Vector3(transform.position.x + Input.GetAxis("JoyStick0_SecondHorizontal"), transform.position.y + Input.GetAxis("JoyStick0_SecondVertical"), 0);
+        if(lookPos != Vector3.zero)
+        {
+            _prevlookpos = new Vector3(Input.GetAxis("JoyStick0_SecondHorizontal"), Input.GetAxis("JoyStick0_SecondVertical"), 0);
+        }
+        else
+        {
+            lookPos = new Vector3(transform.position.x + _prevlookpos.x, transform.position.y + _prevlookpos.y, 0); 
+        }
+        Quaternion look = Quaternion.LookRotation(Vector3.forward, lookPos - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.1f);
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -114,24 +123,24 @@ public class PlayerMovement : MonoBehaviour
                 GetComponent<AudioSource>().PlayOneShot(currentWeapon.WeaponSFX, 0.5f);
             }
         }
-        if(Input.mouseScrollDelta.y > 0)
-        {
-            currentWeaponID++;
-            if(currentWeaponID >= allweapons.Length)
-            {
-                currentWeaponID = 0;
-            }
-            ChangeWeapon(allweapons[currentWeaponID]);
-        }
-        if (Input.mouseScrollDelta.y < 0)
-        {
-            currentWeaponID--;
-            if (currentWeaponID <= 0)
-            {
-                currentWeaponID = allweapons.Length;
-            }
-            ChangeWeapon(allweapons[currentWeaponID]);
-        }
+        //if(Input.mouseScrollDelta.y > 0)
+        //{
+        //    currentWeaponID++;
+        //    if(currentWeaponID >= allweapons.Length)
+        //    {
+        //        currentWeaponID = 0;
+        //    }
+        //    ChangeWeapon(allweapons[currentWeaponID]);
+        //}
+        //if (Input.mouseScrollDelta.y < 0)
+        //{
+        //    currentWeaponID--;
+        //    if (currentWeaponID <= 0)
+        //    {
+        //        currentWeaponID = allweapons.Length;
+        //    }
+        //    ChangeWeapon(allweapons[currentWeaponID]);
+        //}
     }
 
     public void SetUp(Slider slider1, Slider slider2)

@@ -15,6 +15,7 @@ public class CameraScript : MonoBehaviour {
         if (target)
         {
             Vector3 targetPosition = CalculateMiddlePoint(GameController.Players.ToArray());
+            Debug.Log(targetPosition);
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, dampTime);
         }
     }

@@ -46,7 +46,6 @@ public class GameController : MonoBehaviour {
 
     public string CalculateTime()
     {
-        string output = "";
         float seconds = Mathf.Floor(data.TimeSurvived);
         float minutes = Mathf.Floor(seconds / 60);
         float hours = Mathf.Floor(minutes / 60);

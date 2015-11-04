@@ -22,7 +22,7 @@ public class DataContainer : MonoBehaviour {
     {
         for(int i = 0; i < nameText.Length; i++)
         {
-            nameText[i].text = ProfilesLoaded[i].Name;
+           // nameText[i].text = ProfilesLoaded[i].Name;
         }
     }
 }
