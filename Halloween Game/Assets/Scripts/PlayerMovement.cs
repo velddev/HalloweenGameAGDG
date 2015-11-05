@@ -88,7 +88,8 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.15f);
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+            bool triggerDetect = Input.GetAxisRaw("JoyStick0_Run")> 0 ? true : false;
+            if (triggerDetect)
         {
             sprinting = true;
             manager.SprintingSFX();
