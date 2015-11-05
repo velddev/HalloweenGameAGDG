@@ -14,7 +14,7 @@ public class Customiser : MonoBehaviour {
     public Slider Hatslider;
 
     public Color currentColor;
-    public int currentHatID;
+    public int currentHatID = 0;
     public int currentWepID;
 
     void Start()
@@ -26,10 +26,16 @@ public class Customiser : MonoBehaviour {
         if (PlayerPrefs.HasKey("ColR"))
         {
             currentColor = new Color(PlayerPrefs.GetFloat("ColR"), PlayerPrefs.GetFloat("ColG"), PlayerPrefs.GetFloat("ColB"));
+            slider_r.value = Mathf.Round(PlayerPrefs.GetFloat("ColR"));
+            slider_g.value = Mathf.Round(PlayerPrefs.GetFloat("ColG"));
+            slider_b.value = Mathf.Round(PlayerPrefs.GetFloat("ColB"));
         }
-        slider_r.value = PlayerPrefs.GetFloat("ColR");
-        slider_g.value = PlayerPrefs.GetFloat("ColG");
-        slider_b.value = PlayerPrefs.GetFloat("ColB");
+        else
+        {
+            slider_r.value = 1;
+            slider_g.value = 1;
+            slider_b.value = 1;
+        }
         Hatslider.value = currentHatID;
         ChangeWeapon(currentWepID);
     }

@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour {
             GameObject c = GameObject.Find("Canvas");
             GameObject ui = (GameObject)Instantiate(BaseUI, new Vector3(-727 + 400 * i, -457, 0), Quaternion.identity);
             Names[i] = ui.GetComponent<Text>();
+            Names[i].text = data.ProfilesLoaded[data.SelectedProfiles[i]].Name;
             GameObject uihp = ui.transform.GetChild(0).gameObject;
             GameObject uist = ui.transform.GetChild(1).gameObject;
             ui.transform.SetParent(c.transform, false);
@@ -34,7 +35,6 @@ public class GameController : MonoBehaviour {
             g.GetComponent<PlayerMovement>().SetUp(uihp.GetComponent<Slider>(), uist.GetComponent<Slider>());
             g.GetComponent<PlayerMovement>().playerNumber = i;
         }
-        data.SetNames(Names);
     }
 
     void Update()
