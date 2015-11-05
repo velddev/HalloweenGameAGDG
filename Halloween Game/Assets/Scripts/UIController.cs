@@ -7,6 +7,8 @@ public class UIController : MonoBehaviour
 {
     public Image cursor;
 
+    public int PlayerNumber;
+
     public GameObject[] buttons;
     int _currentButton = 0;
 
@@ -49,21 +51,24 @@ public class UIController : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Joystick1Button0))
+        if (Input.GetKeyDown(new Event().keyCode = (KeyCode)(350 + (20 * PlayerNumber))))
         {
-            GetComponent<AudioSource>().PlayOneShot(selectSFX, 0.3f);
+            if (selectSFX)
+            {
+                GetComponent<AudioSource>().PlayOneShot(selectSFX, 0.3f);
+            }
             if (buttons[_currentButton].GetComponent<Button>())
             {
                 PointerEventData pointer = new PointerEventData(EventSystem.current);
                 ExecuteEvents.Execute(buttons[_currentButton].gameObject, pointer, ExecuteEvents.pointerClickHandler);
             }
         }
-        if (Input.GetAxisRaw("JoyStick0_DpadVertical") != 0)
+        if (Input.GetAxisRaw("JoyStick" + PlayerNumber + "_DpadVertical") != 0)
         {
-            if (Input.GetAxisRaw("JoyStick0_DpadVertical") != lastAxis.y)
+            if (Input.GetAxisRaw("JoyStick " + PlayerNumber + "_DpadVertical") != lastAxis.y)
             {
                 GetComponent<AudioSource>().PlayOneShot(changeselectSFX, 0.3f);
-                _currentButton -= (int)Input.GetAxisRaw("JoyStick0_DpadVertical");
+                _currentButton -= (int)Input.GetAxisRaw("JoyStick" + PlayerNumber + "_DpadVertical");
                 if (_currentButton < 0)
                 {
                     _currentButton = buttons.Length - 1;
@@ -74,18 +79,18 @@ public class UIController : MonoBehaviour
                 }
             }
         }
-        if (Input.GetAxisRaw("JoyStick0_DpadHorizontal") != 0)
+        if (Input.GetAxisRaw("JoyStick" + PlayerNumber + "_DpadHorizontal") != 0)
         {
-            if (Input.GetAxisRaw("JoyStick0_DpadHorizontal") != lastAxis.x)
+            if (Input.GetAxisRaw("JoyStick" + PlayerNumber + "_DpadHorizontal") != lastAxis.x)
             {
                 GetComponent<AudioSource>().PlayOneShot(changeselectSFX, 0.3f);
                 if (buttons[_currentButton].GetComponent<Slider>())
                 {
-                    buttons[_currentButton].GetComponent<Slider>().value += Input.GetAxisRaw("JoyStick0_DpadHorizontal");
+                    buttons[_currentButton].GetComponent<Slider>().value += Input.GetAxisRaw("JoyStick" + PlayerNumber + "_DpadHorizontal");
                 }
             }
         }
-        lastAxis.x = (int)Input.GetAxisRaw("JoyStick0_DpadHorizontal");
-        lastAxis.y = (int)Input.GetAxisRaw("JoyStick0_DpadVertical");
+        lastAxis.x = (int)Input.GetAxisRaw("JoyStick" + PlayerNumber + "_DpadHorizontal");
+        lastAxis.y = (int)Input.GetAxisRaw("JoyStick" + PlayerNumber + "_DpadVertical");
     }
 }

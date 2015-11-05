@@ -18,8 +18,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        data.AmountOfPlayers = 1;
-        Application.LoadLevel("Game");
+        Application.LoadLevel("SelectScreen");
     }
 
     public void Customize()
