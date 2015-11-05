@@ -77,21 +77,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (input != Vector3.zero && !sprinting) { manager.WalkingSFX(); }
 
-
-        //_movement = _input.normalized * speed * Time.deltaTime;
-        //transform.Translate(_movement);
-
-        Vector3 lookPos = new Vector3(transform.position.x + Input.GetAxis("JoyStick0_SecondHorizontal"), transform.position.y + Input.GetAxis("JoyStick0_SecondVertical"), 0);
+        Vector3 lookPos = new Vector3(Input.GetAxis("JoyStick0_SecondHorizontal"), Input.GetAxis("JoyStick0_SecondVertical"), 0);
         if (lookPos.magnitude < 0.25f)
         {
             lookPos = Vector3.zero;
-          //  Debug.Log("A" +lookPos);
         }
         else
         {
-            Quaternion look = Quaternion.LookRotation(Vector3.forward, lookPos - transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.1f);
-            //Debug.Log("B"+ lookPos);
+            Quaternion look = Quaternion.LookRotation(Vector3.forward, lookPos);
+            transform.rotation = Quaternion.Lerp(transform.rotation, look, 0.15f);
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
