@@ -11,18 +11,16 @@ public class DataContainer : MonoBehaviour {
     public float KillsMade;
     public float TimeSurvived;
 
-    public DataProfile[] ProfilesLoaded;
+    public int[] SelectedProfiles = new int[4];
+    public DataProfile[] ProfilesLoaded = new DataProfile[10];
 
 	void Start ()
     {
         DontDestroyOnLoad(gameObject);
-	}
-
-    public void SetNames(Text[] nameText)
-    {
-        for(int i = 0; i < nameText.Length; i++)
+	    for(int i = 0 ; i < ProfilesLoaded.Length; i++)
         {
-           // nameText[i].text = ProfilesLoaded[i].Name;
+            ProfilesLoaded[i] = new DataProfile("empty");
+            ProfilesLoaded[i].LoadProfile(i);
         }
     }
 }
